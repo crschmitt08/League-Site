@@ -1,0 +1,16 @@
+name: "PPE-FFL"
+navbar:
+  title: "Purple People Eaters"
+  right:
+    - text: "Weekly Report"
+      href: index.html
+    - text: "YTD Report"
+      href: about.html
+    - text: "League History"
+      menu:
+        - text: Historical Win-Loss
+          href: League_history.html
+
+output:
+  html_document:
+    css: "cyborg.css"

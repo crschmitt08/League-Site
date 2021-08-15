@@ -1,0 +1,53 @@
+---
+title: "Weekly Report"
+output:
+  html_document:
+    includes: 
+        before_body: header.html
+---
+<style type="text/css">
+.main-container {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+***
+
+```{r setup, include=FALSE}
+source("Get_ESPN_League_Info.R", local = knitr::knit_global())
+library(summaryBox)
+library(fontawesome)
+
+highest.score <- proj.vs.act[proj.vs.act$actual == max(proj.vs.act$actual),]
+overachiever <- proj.vs.act[proj.vs.act$diff == max(proj.vs.act$diff),]
+best.manager <- proj.vs.act[proj.vs.act$Best_diff == max(proj.vs.act$Best_diff),]
+big.win <- proj.vs.act[proj.vs.act$Margin == max(proj.vs.act$Margin),]
+
+lowest.score <- proj.vs.act[proj.vs.act$actual == min(proj.vs.act$actual),]
+underachiever <- proj.vs.act[proj.vs.act$diff == min(proj.vs.act$diff),]
+worst.manager <- proj.vs.act[proj.vs.act$Best_diff == min(proj.vs.act$Best_diff),]
+small.loss <- proj.vs.act %>% 
+  filter(Margin < 0) 
+small.loss <- small.loss %>%
+  ungroup() %>% 
+  filter(Margin == max(Margin))
+```
+
+
+```{r box1, echo=FALSE}
+summaryBox2(paste0(highest.score$team, " ", highest.score$actual), "Highest Score", width = 3, icon = "fas fa-arrow-circle-up", style = "dark")
+summaryBox2(paste0(overachiever$team, " +", round(overachiever$actual - overachiever$projected, digits = 2)), "Overachiever", width = 3, icon = "fas fa-angle-double-up", style = "dark")
+summaryBox2(paste0(best.manager$team, " ", best.manager$Best_diff), "Best Manager", width = 3, icon = "fas fa-brain", style = "dark")
+summaryBox2(paste0(big.win$team, " +", big.win$Margin), "Biggest Win Margin", width = 3, icon = "fas fa-arrows-alt-h", style = "dark")
+```
+
+$~$
+
+```{r box2, echo=FALSE}
+summaryBox2(paste0(lowest.score$team, " ", lowest.score$actual), "Lowest Score", width = 3, icon = "fas fa-arrow-circle-down", style = "danger")
+summaryBox2(paste0(underachiever$team, " -", round(underachiever$projected - underachiever$actual, digits = 2)), "Underachiever", width = 3, icon = "fas fa-angle-double-down", style = "danger")
+summaryBox2(paste0(worst.manager$team, " ", worst.manager$Best_diff), "Worst Manager", width = 3, icon = "fas fa-blind", style = "danger")
+summaryBox2(paste0(small.loss$team, " -", abs(small.loss$Margin)), "Smallest Loss Margin", width = 3, icon = "fas fa-sad-cry", style = "danger")
+```

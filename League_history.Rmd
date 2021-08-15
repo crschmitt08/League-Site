@@ -1,0 +1,32 @@
+---
+title: "League History"
+---
+
+<style>
+.table-striped tbody tr:nth-child(odd) td,
+.table-striped tbody tr:nth-child(odd) th {
+	background-color: #696969;
+}
+.table-striped tbody tr:nth-child(even) td,
+.table-striped tbody tr:nth-child(even) th {
+	background-color: #A9A9A9;
+}
+</style>
+
+```{r setup, echo=FALSE, warning=FALSE}
+library(DT)
+library(tidyverse)
+
+WL <- read.csv("historical_WL.csv", stringsAsFactors = FALSE)
+row.names(WL) <- WL$Name
+WL <- WL[,-c(1)]
+WL <- WL %>% 
+  rename(Win_perc = Win..) %>% 
+  arrange(desc(Win_perc))
+
+datatable(WL, options = list(pageLength = 25, searching = FALSE,
+                             columnDefs = list(list(className = 'dt-center', targets = 0:4))),
+          class="table table-striped table-hover")
+
+```
+
