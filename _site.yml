@@ -6,10 +6,10 @@ navbar:
       href: index.html
     - text: "YTD Report"
       href: about.html
+    - text: "Team Reports"
+      href: teams.html
     - text: "League History"
-      menu:
-        - text: Historical Win-Loss
-          href: League_history.html
+      href: League_history.html
 
 output:
   html_document:
